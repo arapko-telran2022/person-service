@@ -1,7 +1,5 @@
 package telran.java2022.person.controller;
 
-import javax.transaction.Transactional;
-
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,7 +33,7 @@ public class PersonController {
 	}
 	
 	@DeleteMapping("/{id}")
-	public PersonDto deletePerson(@PathVariable Integer id) {
+	public PersonDto removePerson(@PathVariable Integer id) {
 		return personService.removePerson(id);
 	}
 
@@ -43,33 +41,29 @@ public class PersonController {
 	public PersonDto updatePersonName(@PathVariable Integer id, @PathVariable String name) {
 		return personService.updatePersonName(id, name);
 	}
-
+	
 	@PutMapping("/{id}/address")
 	public PersonDto updatePersonAddress(@PathVariable Integer id, @RequestBody AddressDto addressDto) {
 		return personService.updatePersonAddress(id, addressDto);
 	}
-
+	
 	@GetMapping("/name/{name}")
-	@Transactional
-	public Iterable<PersonDto> findPersonByName(@PathVariable String name) {
+	public Iterable<PersonDto> findByName(@PathVariable String name) {
 		return personService.findPersonsByName(name);
 	}
-
-	@GetMapping("/ages/{minAge}/{maxAge}")
-	@Transactional
-	public Iterable<PersonDto> findPersonByAge(@PathVariable Integer minAge, @PathVariable Integer maxAge) {
-		return personService.findPersonsBetweenAge(minAge, maxAge);
-	}
-
+	
 	@GetMapping("/city/{city}")
-	@Transactional
-	public Iterable<PersonDto> findPersonByCity(@PathVariable String city) {
+	public Iterable<PersonDto> findByCity(@PathVariable String city) {
 		return personService.findPersonsByCity(city);
 	}
 	
+	@GetMapping("/ages/{min}/{max}")
+	public Iterable<PersonDto> findPersonsBetweenAge(@PathVariable Integer min, @PathVariable Integer max) {
+		return personService.findPersonsBetweenAge(min, max);
+	}
+	
 	@GetMapping("/population/city")
-	@Transactional
-	public Iterable<CityPopulationDto> getCitiesPopulation() {
+	public Iterable<CityPopulationDto> getCityPopulation() {
 		return personService.getCitiesPopulation();
 	}
 
