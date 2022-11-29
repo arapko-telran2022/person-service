@@ -36,7 +36,7 @@ public class PersonServiceImpl implements PersonService, CommandLineRunner  {
 		if(personRepository.existsById(personDto.getId())) {
 			return false;
 		}
-		personRepository.save(modelMapper.map(personDto, Person.class));
+		personRepository.save(modelMapper.map(personDto, getModelClass(personDto)));
 		return true;
 	}
 
@@ -123,15 +123,17 @@ public class PersonServiceImpl implements PersonService, CommandLineRunner  {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public Iterable<PersonDto> findEmployeeBySalary(int min, int max) {
-		// TODO Auto-generated method stub
-		return null;
+		return personRepository.findEmployeeBySalary(min,max).map(p -> modelMapper.map(p, PersonDto.class))
+				.collect(Collectors.toList());
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public Iterable<PersonDto> getChildren() {
-		// TODO Auto-generated method stub
-		return null;
+		return personRepository.getChildren().map(p -> modelMapper.map(p, PersonDto.class))
+				.collect(Collectors.toList());
 	}
 
 
