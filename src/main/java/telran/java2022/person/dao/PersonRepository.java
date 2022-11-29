@@ -27,10 +27,10 @@ public interface PersonRepository extends CrudRepository<Person, Integer> {
 	@Query("select new telran.java2022.person.dto.CityPopulationDto(p.address.city, count(p)) from Person p group by p.address.city order by count(p) desc")
 	List<CityPopulationDto> getCitiesPopulation();
 	
-	@Query("SELECT * FROM EMPLOYEE e where e.salary>=?1 and e.salary<?2")
+	@Query("select e from Employee e where e.salary>=:min and e.salary<:max")
 	Stream<Employee> findEmployeeBySalary(int min, int max);
 	
-	@Query("SELECT * FROM Child")
+	@Query("select c from Child c")
 	Stream<Child> getChildren();
 
 }
