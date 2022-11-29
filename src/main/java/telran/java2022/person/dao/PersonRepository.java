@@ -20,17 +20,17 @@ public interface PersonRepository extends CrudRepository<Person, Integer> {
 
 	@Query("select p from Person p where p.address.city=:city")
 	Stream<Person> findByAddressCity(@Param("city") String city);
-	
-	@Query("select p from Person p where p.birthDate between :from and :to")
+
 	Stream<Person> findByBirthDateBetween(LocalDate from, LocalDate to);
 	
 	@Query("select new telran.java2022.person.dto.CityPopulationDto(p.address.city, count(p)) from Person p group by p.address.city order by count(p) desc")
 	List<CityPopulationDto> getCitiesPopulation();
 	
-	@Query("select e from Employee e where e.salary>=:min and e.salary<:max")
-	Stream<Employee> findEmployeeBySalary(int min, int max);
-	
-	@Query("select c from Child c")
-	Stream<Child> getChildren();
+//	@Query("select e from Employee e where e.salary between ?1 and ?2")
+	Stream<Employee> findBySalaryBetween(int min, int max);
+
+//	@Query("select c from Child c")
+	Stream<Child> findChildrenBy();
+
 
 }
